@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; img-src * data: blob: 'unsafe-inline';" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>Sadia's Collection — Luxury Artificial Jewellery</title>
+    <link rel="icon" type="image/jpg" href="images/logo.jpg" />
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-left">
+                <a href="index.html" class="logo">
+                    <img src="images/logo.jpg" alt="Sadia's Collection Logo" class="brand-img-logo" />
+                    <span>Sadia's Collection</span>
+                </a>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-right">
+                <a href="#" class="cart-icon" id="cartToggle">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+                <div class="hamburger" id="hamburger">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section class="hero" id="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-ambient-glow"></div>
+        <div class="container hero-flex-wrapper">
+            <div class="hero-content" data-aos="fade-right" data-aos-duration="1200">
+                <span class="hero-tag" style="letter-spacing: 5px; color: var(--gold-light); text-transform: uppercase; font-weight: 600;">Luxury Fashion Jewellery</span>
+                <h1 class="hero-title" style="margin: 14px 0 20px;">
+                    <span class="hero-main" style="white-space: nowrap;">Sadia's Collection</span>
+                </h1>
+                <div class="hero-buttons" style="margin-top: 10px;">
+                    <a href="products.html" class="btn btn-primary" style="padding: 16px 40px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;">
+                        Explore Collection
+                    </a>
+                    <a href="about.html" class="btn btn-secondary">
+                        Our Story <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image-wrapper" data-aos="fade-left" data-aos-duration="1200">
+                <img src="images/hero_banner_bg.png" alt="Sadia's Collection Luxury Jewellery" class="hero-full-img" onerror="this.onerror=null; this.src='images/bccc.jpg';" />
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <span>Scroll</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- ========== FEATURES ========== -->
+    <section class="features" data-aos="fade-up">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Premium Artificial</h3>
+                    <p>High-grade Kundan, Zircon &amp; Plated Metal</p>
+                </div>
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Cash on Delivery</h3>
+                    <p>Express delivery across Pakistan</p>
+                </div>
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-undo"></i>
+                    </div>
+                    <h3>Easy Returns</h3>
+                    <p>Love your jewellery or return easily</p>
+                </div>
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <h3>Luxury Packaging</h3>
+                    <p>Comes in a premium velvet gift box</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== BEST SELLERS ========== -->
+    <section class="products-preview" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Bestsellers</span>
+                <h2 class="section-title">Most <span>Loved</span> Pieces</h2>
+                <p class="section-desc">Handpicked fashion jewellery favourites that our customers adore</p>
+            </div>
+            <div class="product-grid" id="productGrid">
+                <!-- Products will be injected by JS -->
+            </div>
+            <div class="text-center mt-5">
+                <a href="products.html" class="btn btn-outline">View All Products <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ABOUT TEASER ========== -->
+    <section class="about-teaser" data-aos="fade-up">
+        <div class="container">
+            <div class="about-teaser-grid">
+                <div class="about-teaser-image" data-aos="zoom-in">
+                    <img src="images/ourstory.webp" alt="About Sadia's Collection" onerror="this.src='images/logo.jpg'" />
+                </div>
+                <div class="about-teaser-text" data-aos="fade-left">
+                    <span class="section-tag">About Us</span>
+                    <h2>Where <span>Art Meets</span> Fashion Jewellery</h2>
+                    <p>
+                        At Sadia's Collection, we believe artificial jewellery is an art — bringing luxury aesthetics, brilliant shine, and exquisite traditional Kundan &amp; Zircon craft within reach for every Pakistani woman.
+                    </p>
+                    <a href="about.html" class="btn btn-primary">Discover Our Story</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== NEWSLETTER ========== -->
+    <section class="newsletter" data-aos="fade-up">
+        <div class="container">
+            <div class="newsletter-box">
+                <i class="fas fa-envelope newsletter-icon"></i>
+                <h3>Join the <span>Exclusive</span> Circle</h3>
+                <p>Subscribe for early access to new artificial collections &amp; special PKR offers</p>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" placeholder="Enter your email address" required />
+                    <button type="submit">Subscribe <i class="fas fa-arrow-right"></i></button>
+                </form>
+                <span class="newsletter-note">No spam, unsubscribe anytime</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECURITY TRUST BADGES ========== -->
+    <section class="security-badges-section" data-aos="fade-up">
+        <div class="container">
+            <div class="security-badges-grid">
+                <div class="badge-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <h5>Verified Quality</h5>
+                        <p>Genuine Kundan &amp; Zircon Craft</p>
+                    </div>
+                </div>
+                <div class="badge-item">
+                    <i class="fas fa-truck-fast"></i>
+                    <div>
+                        <h5>Free Express COD</h5>
+                        <p>24-48h Pakistan Delivery</p>
+                    </div>
+                </div>
+                <div class="badge-item">
+                    <i class="fas fa-user-shield"></i>
+                    <div>
+                        <h5>Buyer Protection</h5>
+                        <p>30-Day Money Back Guarantee</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <img src="images/logo.jpg" alt="Sadia's Collection Logo" class="brand-img-logo" />
+                        <span>Sadia's Collection</span>
+                    </a>
+                    <p>Luxury artificial &amp; fashion jewellery crafted with love for the modern woman.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="products.html">Shop All</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Returns</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Get in Touch</h4>
+                    <p><i class="fas fa-phone"></i> +92 300 1234567</p>
+                    <p><i class="fas fa-envelope"></i> sadiaishtiaqqq@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Islamabad, Pakistan</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 <strong>Sadia's Collection</strong>. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

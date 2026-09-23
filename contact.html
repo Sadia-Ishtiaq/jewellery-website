@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; img-src * data: blob: 'unsafe-inline';" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>Contact — Sadia's Collection</title>
+    <link rel="icon" type="image/jpg" href="images/logo.jpg" />
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="container">
+            <div class="nav-left">
+                <a href="index.html" class="logo">
+                    <img src="images/logo.jpg" alt="Sadia's Collection Logo" class="brand-img-logo" />
+                    <span>Sadia's Collection</span>
+                </a>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+            <div class="nav-right">
+                <a href="#" class="cart-icon" id="cartToggle">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+                <div class="hamburger" id="hamburger">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== PAGE HEADER ========== -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content" data-aos="fade-up">
+                <span class="section-tag">Get in Touch</span>
+                <h1>Contact <span>Us</span></h1>
+                <p>We'd love to hear from you — reach out anytime</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CONTENT ========== -->
+    <section class="contact-page" data-aos="fade-up">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Contact Info -->
+                <div class="contact-info" data-aos="fade-right">
+                    <h2>Let's <span>Connect</span></h2>
+                    <p>
+                        Have questions about our artificial jewellery collection? Need help finding the perfect Kundan or Zircon piece? We're here for you.
+                    </p>
+
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <strong>Visit Us</strong>
+                                <p>Plot 14, F-7 Markaz,<br />Islamabad, Pakistan</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <strong>Call Us</strong>
+                                <p>+92 300 1234567</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <strong>Email Us</strong>
+                                <p>sadiaishtiaqqq@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <strong>Working Hours</strong>
+                                <p>Mon - Sat: 10:00 AM - 8:00 PM<br />Sunday: Closed</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-social">
+                        <span>Follow us:</span>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form" data-aos="fade-left">
+                    <div class="form-box">
+                        <h3>Send Us a <span>Message</span></h3>
+                        <form id="contactForm" action="https://formsubmit.co/sadiaishtiaqqq@gmail.com" method="POST">
+                            <input type="hidden" name="_captcha" value="false">
+                            <input type="hidden" name="_template" value="table">
+                            <input type="hidden" name="_subject" value="New Website Message - Sadia's Collection">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" name="Customer Name" placeholder="Enter your full name" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="Customer Email" placeholder="Enter your email address" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="Phone Number" placeholder="Enter your phone number" />
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <select id="subject" name="Subject">
+                                    <option value="General Inquiry">General Inquiry</option>
+                                    <option value="Product Question">Product Question</option>
+                                    <option value="Order Support">Order Support</option>
+                                    <option value="Custom Order">Custom Order</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Your Message</label>
+                                <textarea id="message" name="Message" rows="5" placeholder="Write your message here..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== MAP SECTION ========== -->
+    <section class="map-section" data-aos="fade-up">
+        <div class="container">
+            <div class="map-box">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d106198.5447195325!2d72.969248!3d33.684422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38dfbfd07891722f%3A0x6059515c3bdb02b6!2sIslamabad%2C%20Islamabad%20Capital%20Territory%2C%20Pakistan!5e0!3m2!1sen!2s!4v1700000000000"
+                    width="100%" height="400" style="border:0; border-radius: 20px;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FAQ SECTION ========== -->
+    <section class="faq-section" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">FAQs</span>
+                <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="faq-question">
+                        <h3>How can I track my order?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Once your order is shipped, you'll receive a tracking number via email and SMS. You can use
+                            this to track your package in real-time.</p>
+                    </div>
+                </div>
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="faq-question">
+                        <h3>What is your return policy?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We offer a 30-day return policy on all products. Items must be unused and in original
+                            packaging. Please contact our support team to initiate a return.</p>
+                    </div>
+                </div>
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="faq-question">
+                        <h3>Do you sell real gold or artificial jewellery?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We specialize in premium high-quality artificial and fashion jewellery — including handcrafted Kundan, AAA Zircon, Polki &amp; Pearl designs.</p>
+                    </div>
+                </div>
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="400">
+                    <div class="faq-question">
+                        <h3>Is your jewellery durable and anti-tarnish?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! All our artificial pieces are double-plated with high-grade anti-tarnish coating to ensure long-lasting shine and beauty.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SECURITY TRUST BADGES ========== -->
+    <section class="security-badges-section" data-aos="fade-up">
+        <div class="container">
+            <div class="security-badges-grid">
+                <div class="badge-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <h5>Verified Quality</h5>
+                        <p>Genuine Kundan &amp; Zircon Craft</p>
+                    </div>
+                </div>
+                <div class="badge-item">
+                    <i class="fas fa-truck-fast"></i>
+                    <div>
+                        <h5>Free Express COD</h5>
+                        <p>24-48h Pakistan Delivery</p>
+                    </div>
+                </div>
+                <div class="badge-item">
+                    <i class="fas fa-user-shield"></i>
+                    <div>
+                        <h5>Buyer Protection</h5>
+                        <p>30-Day Money Back Guarantee</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <img src="images/logo.jpg" alt="Sadia's Collection Logo" class="brand-img-logo" />
+                        <span>Sadia's Collection</span>
+                    </a>
+                    <p>Luxury artificial &amp; fashion jewellery crafted with love for the modern woman.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="products.html">Shop All</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                        <li><a href="#">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Returns</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Get in Touch</h4>
+                    <p><i class="fas fa-phone"></i> +92 300 1234567</p>
+                    <p><i class="fas fa-envelope"></i> sadiaishtiaqqq@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Islamabad, Pakistan</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 <strong>Sadia's Collection</strong>. All Rights Reserved.</p>
+                <p>Made with <i class="fas fa-heart"></i> &amp; passion</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Control Panel — Sadia's Collection</title>
+    <link rel="icon" type="image/jpg" href="images/logo.jpg" />
+
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        body {
+            background-color: #F8F5F2;
+        }
+
+        .admin-nav {
+            background: #1E1718;
+            color: #fff;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--font-primary);
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .admin-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+        }
+
+        .admin-user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .admin-badge {
+            background: var(--gold);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .admin-container {
+            max-width: 1350px;
+            margin: 40px auto;
+            padding: 0 30px;
+        }
+
+        .admin-login-card {
+            max-width: 440px;
+            margin: 80px auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            border: 1px solid rgba(179, 136, 140, 0.2);
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .stat-box {
+            background: #fff;
+            padding: 24px 28px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            border: 1px solid rgba(179, 136, 140, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-box .icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: rgba(179, 136, 140, 0.12);
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .stat-box h4 {
+            font-size: 13px;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .stat-box span {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+            font-family: var(--font-primary);
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 16px;
+            border-bottom: 2px solid #E5DDD5;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            padding: 14px 28px;
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--gray);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+        }
+
+        .admin-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            border: 1px solid rgba(179, 136, 140, 0.15);
+            margin-bottom: 40px;
+        }
+
+        .card-header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .admin-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .admin-table th {
+            background: #FAF6F0;
+            padding: 14px 18px;
+            color: var(--dark);
+            font-weight: 600;
+            border-bottom: 2px solid #E8D3D5;
+            white-space: nowrap;
+        }
+
+        .admin-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid #F3EDE6;
+            vertical-align: middle;
+        }
+
+        .product-thumb {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid #E8D3D5;
+        }
+
+        .status-select {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1.5px solid #ccc;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .status-Pending { background: #FEF3C7; color: #92400E; border-color: #F59E0B; }
+        .status-Confirmed { background: #DBEAFE; color: #1E40AF; border-color: #3B82F6; }
+        .status-Shipped { background: #E0E7FF; color: #3730A3; border-color: #6366F1; }
+        .status-Delivered { background: #D1FAE5; color: #065F46; border-color: #10B981; }
+        .status-Cancelled { background: #FEE2E2; color: #991B1B; border-color: #EF4444; }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 12px;
+            border-radius: 20px;
+        }
+
+        .modal-overlay-admin {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay-admin.active {
+            display: flex;
+        }
+
+        .modal-content-admin {
+            background: #fff;
+            width: 100%;
+            max-width: 650px;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ========== ADMIN NAVIGATION ========== -->
+    <nav class="admin-nav">
+        <div class="admin-logo">
+            <img src="images/logo.jpg" alt="Logo" />
+            <span>Sadia's Collection <small style="font-size: 13px; opacity: 0.7; font-family: var(--font-secondary);">Admin Portal</small></span>
+        </div>
+        <div class="admin-user-info" id="adminUserNav" style="display: none;">
+            <span class="admin-badge">Admin Authenticated</span>
+            <span id="adminNameLabel" style="font-weight: 600;">Sadia Hayat</span>
+            <a href="index.html" class="btn btn-outline btn-sm" style="color: #fff; border-color: rgba(255,255,255,0.4);"><i class="fas fa-store"></i> Store Front</a>
+            <button class="btn btn-primary btn-sm" id="adminLogoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </nav>
+
+    <!-- ========== LOGIN SCREEN (If not authenticated) ========== -->
+    <div id="adminLoginSection" class="admin-login-card">
+        <img src="images/logo.jpg" style="width: 70px; height: 70px; border-radius: 50%; border: 3px solid var(--gold); margin: 0 auto 16px;" />
+        <h2 style="font-family: var(--font-primary); font-size: 28px; margin-bottom: 6px;">Admin Access</h2>
+        <p style="color: var(--gray); font-size: 14px; margin-bottom: 24px;">Log in with your administrator credentials to manage products &amp; orders.</p>
+
+        <form id="adminLoginForm">
+            <div style="text-align: left; margin-bottom: 16px;">
+                <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 6px;">Admin Email</label>
+                <input type="email" id="adminEmailInput" placeholder="admin@sadiascollection.com" value="admin@sadiascollection.com" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1.5px solid #ddd; outline: none;" />
+            </div>
+            <div style="text-align: left; margin-bottom: 24px;">
+                <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 6px;">Password</label>
+                <input type="password" id="adminPasswordInput" placeholder="Enter admin password" value="AdminPass123!" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1.5px solid #ddd; outline: none;" />
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 14px; border-radius: 12px; font-weight: 600;">
+                <i class="fas fa-lock"></i> Login to Dashboard
+            </button>
+        </form>
+    </div>
+
+    <!-- ========== MAIN ADMIN DASHBOARD CONTENT ========== -->
+    <div id="adminDashboardSection" class="admin-container" style="display: none;">
+
+        <!-- Overview Stats -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div>
+                    <h4>Total Sales (COD)</h4>
+                    <span id="statSales">PKR 0</span>
+                </div>
+                <div class="icon"><i class="fas fa-coins"></i></div>
+            </div>
+            <div class="stat-box">
+                <div>
+                    <h4>Total Orders</h4>
+                    <span id="statOrders">0</span>
+                </div>
+                <div class="icon"><i class="fas fa-box-open"></i></div>
+            </div>
+            <div class="stat-box">
+                <div>
+                    <h4>Total Jewellery</h4>
+                    <span id="statProducts">0</span>
+                </div>
+                <div class="icon"><i class="fas fa-gem"></i></div>
+            </div>
+            <div class="stat-box">
+                <div>
+                    <h4>Low Stock Alert</h4>
+                    <span id="statLowStock">0</span>
+                </div>
+                <div class="icon" style="color: #EF4444; background: #FEE2E2;"><i class="fas fa-exclamation-triangle"></i></div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="admin-tabs">
+            <button class="tab-btn active" data-tab="productsTab"><i class="fas fa-gem"></i> Jewellery Products</button>
+            <button class="tab-btn" data-tab="ordersTab"><i class="fas fa-shopping-bag"></i> Customer Orders</button>
+        </div>
+
+        <!-- PRODUCTS TAB -->
+        <div id="productsTab" class="tab-content">
+            <div class="admin-card">
+                <div class="card-header-actions">
+                    <div>
+                        <h3 style="font-family: var(--font-primary); font-size: 26px;">Product Inventory</h3>
+                        <p style="color: var(--gray); font-size: 13.5px;">Manage prices, stock count, categories and upload new designs</p>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <input type="text" id="productSearchAdmin" placeholder="Search jewellery by name..." style="padding: 10px 16px; border-radius: 20px; border: 1.5px solid #ddd; outline: none; font-size: 13px; min-width: 220px;" />
+                        <button class="btn btn-primary" id="openAddProductModalBtn" style="padding: 10px 22px; font-size: 13px;">
+                            <i class="fas fa-plus-circle"></i> Add New Product
+                        </button>
+                    </div>
+                </div>
+
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Item Image</th>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Price (PKR)</th>
+                                <th>Original (PKR)</th>
+                                <th>Stock</th>
+                                <th>SKU</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminProductsTableBody">
+                            <!-- Products injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ORDERS TAB -->
+        <div id="ordersTab" class="tab-content" style="display: none;">
+            <div class="admin-card">
+                <div class="card-header-actions">
+                    <div>
+                        <h3 style="font-family: var(--font-primary); font-size: 26px;">Customer Orders (Cash on Delivery)</h3>
+                        <p style="color: var(--gray); font-size: 13.5px;">View customer delivery addresses, phone numbers, order items and change status</p>
+                    </div>
+                    <div>
+                        <select id="orderStatusFilterAdmin" style="padding: 10px 16px; border-radius: 20px; border: 1.5px solid #ddd; outline: none; font-size: 13px;">
+                            <option value="All">All Statuses</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Confirmed">Confirmed</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer Name &amp; Contact</th>
+                                <th>Address &amp; City</th>
+                                <th>Items</th>
+                                <th>Total Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminOrdersTableBody">
+                            <!-- Orders injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== ADD/EDIT PRODUCT MODAL ========== -->
+    <div class="modal-overlay-admin" id="productFormModal">
+        <div class="modal-content-admin">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 id="modalProductTitle" style="font-family: var(--font-primary); font-size: 24px;">Add New Jewellery Item</h3>
+                <button class="close-modal" id="closeProductModalBtn">&times;</button>
+            </div>
+
+            <form id="productSaveForm">
+                <input type="hidden" id="editProductId" />
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 14px;">
+                    <div>
+                        <label style="font-size: 12.5px; font-weight: 600; display: block; margin-bottom: 4px;">Product Name *</label>
+                        <input type="text" id="prodNameInput" required placeholder="e.g. Royal Kundan Haar" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ccc;" />
+                    </div>
+                    <div>
+                        <label style="font-size: 12.5px; font-weight: 600; display: block; margin-bottom: 4px;">Category *</label>
+                        <select id="prodCategoryInput" required style="width:100%; padding:10px; border-radius:10px; border:1px solid #ccc;">
+                            <option value="necklace">Necklace</option>
+                            <option value="ring">Ring</option>
+                            <option value="earrings">Earrings</option>
+                            <option value="bracelet">Bracelets &amp; Bangles</option>
+                            <option value="anklet">Anklet</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 14px;">
+                    <div>
+                        <label style="font-size: 12.5px; font-weight: 600; display: block; margin-bottom: 4px;">Price (PKR) *</label>
+                        <input type="number" id="prodPriceInput" required min="0" placeholder="1850" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ccc;" />
+                    </div>
+                    <div>
+                        <label style="font-size: 12.5px; font-weight: 600; display: block; margin-bottom: 4px;">Original Price (PKR)</label>
+                        <input type="number" id="prodOriginalPriceInput" min="0" placeholder="2400" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ccc;" />
+                    </div>
+                    <div>
+                        <label style="font-size: 12.5px; font-weight: 600; display: block; margin-bottom: 4px;">Stock Count *</label>
+                        <input type="number" id="prodStockInput" required min="0" value="25" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ccc;" />
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 14px;">
+                    <div>
+                        <label style="font-size: 12.5px; font-weight: 600; display: block; margin-bottom: 4px;">Image File Upload</label>
+                        <input type="file" id="prodImageFileInput" accept="image/*" style="width:100%; padding:8px; border-radius:10px; border:1px solid #ccc;" />
+                    </div>
+                    <div>
+                        <label style="font-size: 12.5px; font-weight: 600; display: block; margin-bottom: 4px;">OR Image Path/URL</label>
+                        <input type="text" id="prodImageUrlInput" placeholder="images/n1.jpg" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ccc;" />
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 14px;">
+                    <label style="font-size: 12.5px; font-weight: 600; display: block; margin-bottom: 4px;">SKU Code</label>
+                    <input type="text" id="prodSkuInput" placeholder="SADIA-NECK-001" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ccc;" />
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="font-size: 12.5px; font-weight: 600; display: block; margin-bottom: 4px;">Product Description</label>
+                    <textarea id="prodDescInput" rows="3" placeholder="Enter details..." style="width:100%; padding:10px; border-radius:10px; border:1px solid #ccc;"></textarea>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 12px;">
+                    <button type="button" class="btn btn-outline" id="cancelProductModalBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>
