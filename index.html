@@ -7,12 +7,12 @@
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; img-src * data: blob: 'unsafe-inline';" />
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <title>Sadia's Collection — Luxury Artificial Jewellery</title>
+    <title>Sadia's Collection — Artificial &amp; Fashion Jewellery</title>
     <link rel="icon" type="image/jpg" href="images/logo.jpg" />
 
     <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet" />
 
     <!-- Font Awesome Icons -->
@@ -25,14 +25,26 @@
     <link rel="stylesheet" href="css/style.css" />
 </head>
 
-<body>
+<body class="has-ticker">
+
+    <!-- ========== TOP ANNOUNCEMENT TICKER BAR ========== -->
+    <div class="top-ticker-bar">
+        <div class="top-ticker-content">
+            <span class="top-ticker-item"><i class="fas fa-sparkles"></i> FREE EXPRESS CASH ON DELIVERY ACROSS PAKISTAN</span>
+            <span class="top-ticker-item"><i class="fas fa-gem"></i> ELEGANT ARTIFICIAL &amp; FASHION JEWELLERY COLLECTION</span>
+            <span class="top-ticker-item"><i class="fas fa-box-open"></i> LUXURY VELVET GIFT BOX PACKAGING</span>
+            <span class="top-ticker-item"><i class="fas fa-shield-halved"></i> 100% BUYER PROTECTION &amp; EASY RETURNS</span>
+            <span class="top-ticker-item"><i class="fas fa-sparkles"></i> FREE EXPRESS CASH ON DELIVERY ACROSS PAKISTAN</span>
+            <span class="top-ticker-item"><i class="fas fa-gem"></i> ELEGANT ARTIFICIAL &amp; FASHION JEWELLERY COLLECTION</span>
+        </div>
+    </div>
 
     <!-- ========== NAVIGATION ========== -->
     <nav class="navbar" id="navbar">
         <div class="container">
             <div class="nav-left">
                 <a href="index.html" class="logo">
-                    <img src="images/logo.jpg" alt="Sadia's Collection Logo" class="brand-img-logo" />
+                    <img src="images/logo.jpg" alt="Sadia's Collection Logo" class="brand-img-logo" onerror="this.src='images/logo.jpg';" />
                     <span>Sadia's Collection</span>
                 </a>
             </div>
@@ -43,7 +55,7 @@
                 <li><a href="contact.html">Contact</a></li>
             </ul>
             <div class="nav-right">
-                <a href="#" class="cart-icon" id="cartToggle">
+                <a href="#" class="cart-icon" id="cartToggle" title="Shopping Bag">
                     <i class="fas fa-shopping-bag"></i>
                     <span class="cart-count" id="cartCount">0</span>
                 </a>
@@ -54,32 +66,114 @@
         </div>
     </nav>
 
-    <!-- ========== HERO SECTION ========== -->
-    <section class="hero" id="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-ambient-glow"></div>
-        <div class="container hero-flex-wrapper">
-            <div class="hero-content" data-aos="fade-right" data-aos-duration="1200">
-                <span class="hero-tag" style="letter-spacing: 5px; color: var(--gold-light); text-transform: uppercase; font-weight: 600;">Luxury Fashion Jewellery</span>
-                <h1 class="hero-title" style="margin: 14px 0 20px;">
-                    <span class="hero-main" style="white-space: nowrap;">Sadia's Collection</span>
-                </h1>
-                <div class="hero-buttons" style="margin-top: 10px;">
-                    <a href="products.html" class="btn btn-primary" style="padding: 16px 40px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;">
-                        Explore Collection
-                    </a>
-                    <a href="about.html" class="btn btn-secondary">
-                        Our Story <i class="fas fa-arrow-right"></i>
-                    </a>
+    <!-- ========== REDESIGNED HERO SECTION (TYPOGRAPHY & GLASSMORPHISM) ========== -->
+    <section class="hero-v2" id="hero">
+        <div class="hero-v2-glow-1"></div>
+        <div class="hero-v2-glow-2"></div>
+        
+        <div class="container hero-v2-container">
+            <div data-aos="fade-down" data-aos-duration="1000">
+                <div class="hero-badge-pill">
+                    Luxury Artificial &amp; Fashion Jewellery
                 </div>
             </div>
-            <div class="hero-image-wrapper" data-aos="fade-left" data-aos-duration="1200">
-                <img src="images/hero_banner_bg.png" alt="Sadia's Collection Luxury Jewellery" class="hero-full-img" onerror="this.onerror=null; this.src='images/bccc.jpg';" />
+
+            <h1 class="hero-v2-title" data-aos="fade-up" data-aos-duration="1100">
+                Timeless Elegance, <br />
+                <span>Reimagined For You</span>
+            </h1>
+
+            <p class="hero-v2-subtitle" data-aos="fade-up" data-aos-duration="1200">
+                Discover Pakistan’s finest collection of artificial fashion jewellery, necklace sets, payals, bangles, and rings. 
+                Exquisite shine and beautiful aesthetics delivered to your doorstep.
+            </p>
+
+            <div class="hero-v2-actions" data-aos="fade-up" data-aos-duration="1300">
+                <a href="products.html" class="btn btn-primary" style="padding: 18px 44px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;">
+                    <i class="fas fa-gem"></i> Explore Collection
+                </a>
+                <a href="about.html" class="btn btn-secondary" style="padding: 18px 36px;">
+                    <i class="fas fa-heart"></i> Our Story
+                </a>
+            </div>
+
+            <div class="hero-stats-row" data-aos="zoom-in" data-aos-duration="1200">
+                <div class="hero-stat-item">
+                    <span class="hero-stat-num">Exclusive</span>
+                    <span class="hero-stat-label">Artisan Collection</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="hero-stat-num">100%</span>
+                    <span class="hero-stat-label">Express COD Pakistan</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="hero-stat-num">4.9 ★</span>
+                    <span class="hero-stat-label">Customer Satisfaction</span>
+                </div>
             </div>
         </div>
+
         <div class="hero-scroll">
-            <span>Scroll</span>
+            <span>Scroll Down</span>
             <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- ========== CATEGORY SHOWCASE SECTION ========== -->
+    <section class="categories-showcase" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Curated Collections</span>
+                <h2 class="section-title">Shop By <span>Category</span></h2>
+                <p class="section-desc">Select from our signature handpicked jewellery categories</p>
+            </div>
+
+            <div class="category-cards-grid">
+                <a href="products.html?category=necklace" class="category-card-item" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="category-icon-circle">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3 class="category-card-title">Necklaces</h3>
+                    <span class="category-card-count">Chokers &amp; Necklace Sets</span>
+                    <span class="category-card-arrow">Explore <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <a href="products.html?category=earrings" class="category-card-item" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="category-icon-circle">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h3 class="category-card-title">Earrings</h3>
+                    <span class="category-card-count">Jhumkas &amp; Dangles</span>
+                    <span class="category-card-arrow">Explore <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <a href="products.html?category=bracelet" class="category-card-item" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="category-icon-circle">
+                        <i class="fas fa-circle-notch"></i>
+                    </div>
+                    <h3 class="category-card-title">Bangles</h3>
+                    <span class="category-card-count">Kada &amp; Bracelets</span>
+                    <span class="category-card-arrow">Explore <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <a href="products.html?category=anklet" class="category-card-item" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="category-icon-circle">
+                        <i class="fas fa-feather"></i>
+                    </div>
+                    <h3 class="category-card-title">Payal Anklets</h3>
+                    <span class="category-card-count">Crystal &amp; Ghungroo</span>
+                    <span class="category-card-arrow">Explore <i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <a href="products.html?category=ring" class="category-card-item" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="category-icon-circle">
+                        <i class="fas fa-ring"></i>
+                    </div>
+                    <h3 class="category-card-title">Rings</h3>
+                    <span class="category-card-count">Solitaires &amp; Cocktail</span>
+                    <span class="category-card-arrow">Explore <i class="fas fa-arrow-right"></i></span>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -92,7 +186,7 @@
                         <i class="fas fa-gem"></i>
                     </div>
                     <h3>Premium Artificial</h3>
-                    <p>High-grade Kundan, Zircon &amp; Plated Metal</p>
+                    <p>High-grade Artificial Metal &amp; Plating</p>
                 </div>
                 <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
                     <div class="feature-icon-wrapper">
@@ -125,13 +219,80 @@
             <div class="section-header">
                 <span class="section-tag">Bestsellers</span>
                 <h2 class="section-title">Most <span>Loved</span> Pieces</h2>
-                <p class="section-desc">Handpicked fashion jewellery favourites that our customers adore</p>
+                <p class="section-desc">Handpicked artificial fashion jewellery favourites that our customers adore</p>
             </div>
             <div class="product-grid" id="productGrid">
                 <!-- Products will be injected by JS -->
             </div>
             <div class="text-center mt-5">
                 <a href="products.html" class="btn btn-outline">View All Products <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CUSTOMER TESTIMONIALS ========== -->
+    <section class="testimonials-section" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <span class="section-tag" style="color: var(--gold-light);">Verified Reviews</span>
+                <h2 class="section-title" style="color: #FFF;">What Our <span>Clients Say</span></h2>
+                <p class="section-desc" style="color: rgba(255, 255, 255, 0.7);">Real feedback from fashion enthusiasts across Pakistan</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+                    <div>
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">
+                            "The necklace set I ordered for my sister's function was beyond stunning! The finish looks completely premium. Delivery to Lahore was super quick."
+                        </p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">A</div>
+                        <div>
+                            <div class="author-name">Ayesha Khan</div>
+                            <div class="author-location"><i class="fas fa-check-circle" style="color: #25D366;"></i> Verified Buyer • Lahore</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+                    <div>
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">
+                            "Sadia's Collection never disappoints! The artificial earrings have a brilliant shine and come packed in a lovely velvet gift box. Will definitely shop again."
+                        </p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">F</div>
+                        <div>
+                            <div class="author-name">Fatima Zehra</div>
+                            <div class="author-location"><i class="fas fa-check-circle" style="color: #25D366;"></i> Verified Buyer • Islamabad</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
+                    <div>
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">
+                            "Ordered cash on delivery to Karachi. The quality of bangles and rings is top-notch. Highly recommend to everyone looking for artificial jewellery!"
+                        </p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">M</div>
+                        <div>
+                            <div class="author-name">Maryam Saeed</div>
+                            <div class="author-location"><i class="fas fa-check-circle" style="color: #25D366;"></i> Verified Buyer • Karachi</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -147,7 +308,7 @@
                     <span class="section-tag">About Us</span>
                     <h2>Where <span>Art Meets</span> Fashion Jewellery</h2>
                     <p>
-                        At Sadia's Collection, we believe artificial jewellery is an art — bringing luxury aesthetics, brilliant shine, and exquisite traditional Kundan &amp; Zircon craft within reach for every Pakistani woman.
+                        At Sadia's Collection, we believe artificial jewellery is an art — bringing luxury aesthetics, brilliant shine, and exquisite fashion craft within reach for every Pakistani woman.
                     </p>
                     <a href="about.html" class="btn btn-primary">Discover Our Story</a>
                 </div>
@@ -179,7 +340,7 @@
                     <i class="fas fa-shield-alt"></i>
                     <div>
                         <h5>Verified Quality</h5>
-                        <p>Genuine Kundan &amp; Zircon Craft</p>
+                        <p>Genuine Artificial Craft</p>
                     </div>
                 </div>
                 <div class="badge-item">
@@ -206,7 +367,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="index.html" class="logo">
-                        <img src="images/logo.jpg" alt="Sadia's Collection Logo" class="brand-img-logo" />
+                        <img src="images/logo.jpg" alt="Sadia's Collection Logo" class="brand-img-logo" onerror="this.src='images/logo.jpg';" />
                         <span>Sadia's Collection</span>
                     </a>
                     <p>Luxury artificial &amp; fashion jewellery crafted with love for the modern woman.</p>
