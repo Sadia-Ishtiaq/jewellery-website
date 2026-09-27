@@ -101,7 +101,7 @@ const ankletItems = [
     { name: 'Grand Kundan Payal', image: 'images/a26.jpg', price: 1480, original: 1980 },
     { name: 'Classic Pearl Anklet', image: 'images/a27.jpg', price: 1150, original: 1520 },
     { name: 'Premium Ghungroo Payal', image: 'images/aa1.jpg', price: 1550, original: 2050 }
-].map(item => ({ ...item, category: 'anklet' }));
+].map((item, idx) => ({ ...item, id: `anklet_${idx + 1}`, category: 'anklet' }));
 
 const braceletItems = [
     { name: 'Kundan Bangle Bracelet', image: 'images/b1.jpg', price: 1450, original: 1950 },
@@ -139,7 +139,7 @@ const braceletItems = [
     { name: 'Royal Kundan Kada Bangle', image: 'images/b3.avif', price: 1750, original: 2300 },
     { name: 'Pearl Cluster Charm Bangle', image: 'images/b4.avif', price: 1550, original: 2050 },
     { name: 'Twisted Metallic Bracelet', image: 'images/b111.jpg', price: 1290, original: 1750 }
-].map(item => ({ ...item, category: 'bracelet' }));
+].map((item, idx) => ({ ...item, id: `bracelet_${idx + 1}`, category: 'bracelet' }));
 
 const earringItems = [
     { name: 'Royal Crystal Jhumka Drop', image: 'images/e1.jpg', price: 1650, original: 2200 },
@@ -183,7 +183,7 @@ const earringItems = [
     { name: 'Pearl Stud Earrings Classic Set', image: 'images/earingss.jpg', price: 1250, original: 1650 },
     { name: 'Chandbali Statement Earrings Classic', image: 'images/earingsss.jpg', price: 1750, original: 2300 },
     { name: 'Kashmiri Drop Traditional Earrings', image: 'images/earrings.jpg', price: 1550, original: 2000 }
-].map(item => ({ ...item, category: 'earrings' }));
+].map((item, idx) => ({ ...item, id: `earring_${idx + 1}`, category: 'earrings' }));
 
 const necklaceItems = [
     { name: 'Royal Pearl Choker Set', image: 'images/n1.jpg', price: 2450, original: 3200 },
@@ -222,7 +222,7 @@ const necklaceItems = [
     { name: 'Classic Pearl & Crystal Necklace Set', image: 'images/neklce set.jpg', price: 2250, original: 2950 },
     { name: 'Royal Solitaire Crystal Locket', image: 'images/nelcave.jpg', price: 1350, original: 1750 },
     { name: 'Luxe Emerald Pearl Haar', image: 'images/14.jpg', price: 3250, original: 4200 }
-].map(item => ({ ...item, category: 'necklace' }));
+].map((item, idx) => ({ ...item, id: `necklace_${idx + 1}`, category: 'necklace' }));
 
 const ringItems = [
     { name: 'Crystal Solitaire Ring', image: 'images/r1.jpg', price: 1250, original: 1650 },
@@ -267,7 +267,7 @@ const ringItems = [
     { name: 'Stacking Band Ring Elegant', image: 'images/rings12.jpg', price: 1220, original: 1620 },
     { name: 'Royal Ruby Ring Deluxe', image: 'images/rings21.jpg', price: 1450, original: 1850 },
     { name: 'Fine Crystal Ring', image: 'images/rinsg2.jpg', price: 1230, original: 1630 }
-].map(item => ({ ...item, category: 'ring' }));
+].map((item, idx) => ({ ...item, id: `ring_${idx + 1}`, category: 'ring' }));
 
 const rawAllProducts = [
     ...necklaceItems,
@@ -275,7 +275,14 @@ const rawAllProducts = [
     ...ankletItems,
     ...braceletItems,
     ...ringItems
-];
+].map((item, idx) => {
+    const uniqueId = String(item.id || item._id || `prod_${idx + 1}`);
+    return {
+        ...item,
+        id: uniqueId,
+        _id: uniqueId
+    };
+});
 
 let allProducts = [...rawAllProducts];
 
@@ -284,11 +291,15 @@ async function loadProductsFromMongoDB() {
         if (typeof API !== 'undefined' && API.getProducts) {
             const data = await API.getProducts({ limit: 300 });
             if (data && data.success && Array.isArray(data.products) && data.products.length > 0) {
-                allProducts = data.products.map(p => ({
-                    ...p,
-                    id: p._id || p.id,
-                    original: p.originalPrice || p.original || Math.round(p.price * 1.3)
-                }));
+                allProducts = data.products.map((p, idx) => {
+                    const rawId = p._id ? (typeof p._id === 'object' ? (p._id.$oid || String(p._id)) : String(p._id)) : (p.id ? String(p.id) : `db_prod_${idx + 1}`);
+                    return {
+                        ...p,
+                        id: rawId,
+                        _id: rawId,
+                        original: p.originalPrice || p.original || Math.round((p.price || 0) * 1.3)
+                    };
+                });
                 renderDynamicProductGrids();
             }
         }
@@ -416,13 +427,14 @@ function closeProductDetailModal() {
 // ===== PRODUCT RENDER FUNCTION =====
 // ============================================================
 function renderProductGrid(container, products) {
-    container.innerHTML = products.map(product => {
+    container.innerHTML = products.map((product, idx) => {
         const imgUrl = formatImageUrl(product.image);
+        const productId = String(product._id || product.id || `prod_${idx + 1}`);
         return `
-        <div class="product-card" data-id="${product.id}" data-category="${product.category}" data-price="${product.price}" data-name="${product.name}">
+        <div class="product-card" data-id="${productId}" data-index="${idx}" data-category="${product.category}" data-price="${product.price}" data-name="${product.name}">
             <div class="product-image">
                 <img src="${imgUrl}" alt="${product.name}" onerror="this.onerror=null; this.src='images/logo.jpg';">
-                <button class="product-wishlist" data-id="${product.id}" title="Wishlist">
+                <button class="product-wishlist" data-id="${productId}" data-index="${idx}" title="Wishlist">
                     <i class="far fa-heart"></i>
                 </button>
             </div>
@@ -433,20 +445,37 @@ function renderProductGrid(container, products) {
                     PKR ${product.price.toLocaleString()}
                     ${product.original ? `<span class="original">PKR ${product.original.toLocaleString()}</span>` : ''}
                 </div>
-                <button class="add-to-cart" data-id="${product.id}">
+                <button class="add-to-cart" data-id="${productId}" data-index="${idx}">
                     <i class="fas fa-shopping-bag"></i> Add to Cart
                 </button>
             </div>
         </div>
     `}).join('');
 
-    // Attach Click Event to whole product card to open Product Detail Modal
-    container.querySelectorAll('.product-card').forEach(card => {
+    // Attach product object & Click Event to whole product card to open Product Detail Modal
+    const cardEls = container.querySelectorAll('.product-card');
+    cardEls.forEach((card, idx) => {
+        const productItem = products[idx];
+        if (productItem) {
+            card._productData = productItem;
+        }
+
         card.addEventListener('click', function (e) {
             // Do not open detail modal if user clicked Wishlist or Add to Cart button directly
             if (e.target.closest('.product-wishlist') || e.target.closest('.add-to-cart')) return;
-            const id = this.dataset.id;
-            const product = allProducts.find(p => String(p._id || p.id) === String(id));
+            
+            const cardId = this.getAttribute('data-id');
+            const cardIndex = parseInt(this.getAttribute('data-index'), 10);
+            
+            let product = this._productData;
+            if (!product && !isNaN(cardIndex) && products[cardIndex]) {
+                product = products[cardIndex];
+            }
+            if (!product && cardId) {
+                product = products.find(p => String(p._id || p.id) === String(cardId)) ||
+                          allProducts.find(p => String(p._id || p.id) === String(cardId));
+            }
+
             if (product) openProductDetailModal(product);
         });
     });
@@ -466,8 +495,18 @@ function renderProductGrid(container, products) {
     container.querySelectorAll('.add-to-cart').forEach(btn => {
         btn.addEventListener('click', function (e) {
             e.stopPropagation();
-            const id = this.dataset.id;
-            const product = allProducts.find(p => String(p._id || p.id) === String(id));
+            const card = this.closest('.product-card');
+            const cardId = this.getAttribute('data-id') || (card && card.getAttribute('data-id'));
+            const cardIndex = parseInt(this.getAttribute('data-index') || (card && card.getAttribute('data-index')), 10);
+
+            let product = card ? card._productData : null;
+            if (!product && !isNaN(cardIndex) && products[cardIndex]) {
+                product = products[cardIndex];
+            }
+            if (!product && cardId) {
+                product = products.find(p => String(p._id || p.id) === String(cardId)) ||
+                          allProducts.find(p => String(p._id || p.id) === String(cardId));
+            }
             if (product) addToCart(product);
         });
     });
@@ -481,14 +520,24 @@ function setupFilters() {
     const sortSelect = document.getElementById('sortSelect');
     const productCount = document.getElementById('productCount');
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryParam = urlParams.get('category');
+    if (categoryParam) {
+        filterBtns.forEach(b => {
+            if (b.dataset.filter === categoryParam) {
+                b.classList.add('active');
+            } else {
+                b.classList.remove('active');
+            }
+        });
+    }
+
     function filterAndSort() {
         const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
         const sortBy = sortSelect?.value || 'default';
 
-        let filtered = allProducts;
-        if (activeFilter !== 'all') {
-            filtered = allProducts.filter(p => p.category === activeFilter);
-        }
+        let filtered = activeFilter === 'all' ? [...allProducts] : allProducts.filter(p => p.category === activeFilter);
+        filtered = [...filtered];
 
         // Sort
         switch (sortBy) {
@@ -505,6 +554,7 @@ function setupFilters() {
                 break;
         }
 
+        const allProductsGrid = document.getElementById('allProductsGrid');
         if (allProductsGrid) {
             renderProductGrid(allProductsGrid, filtered);
             if (productCount) {
@@ -522,6 +572,10 @@ function setupFilters() {
     });
 
     sortSelect?.addEventListener('change', filterAndSort);
+
+    if (categoryParam) {
+        filterAndSort();
+    }
 }
 
 // ============================================================
@@ -652,8 +706,8 @@ function updateCartUI() {
     // Attach Event Listeners to Qty and Remove Buttons
     container.querySelectorAll('.inc-qty').forEach(btn => {
         btn.addEventListener('click', function () {
-            const id = parseInt(this.dataset.id);
-            const item = cart.find(i => i.id === id);
+            const id = this.dataset.id;
+            const item = cart.find(i => String(i._id || i.id) === String(id));
             if (item) {
                 item.quantity += 1;
                 updateCartUI();
@@ -663,12 +717,12 @@ function updateCartUI() {
 
     container.querySelectorAll('.dec-qty').forEach(btn => {
         btn.addEventListener('click', function () {
-            const id = parseInt(this.dataset.id);
-            const item = cart.find(i => i.id === id);
+            const id = this.dataset.id;
+            const item = cart.find(i => String(i._id || i.id) === String(id));
             if (item) {
                 item.quantity -= 1;
                 if (item.quantity <= 0) {
-                    cart = cart.filter(i => i.id !== id);
+                    cart = cart.filter(i => String(i._id || i.id) !== String(id));
                 }
                 updateCartUI();
             }
@@ -677,8 +731,8 @@ function updateCartUI() {
 
     container.querySelectorAll('.remove-cart-item').forEach(btn => {
         btn.addEventListener('click', function () {
-            const id = parseInt(this.dataset.id);
-            cart = cart.filter(i => i.id !== id);
+            const id = this.dataset.id;
+            cart = cart.filter(i => String(i._id || i.id) !== String(id));
             updateCartUI();
         });
     });
@@ -1704,7 +1758,7 @@ const InstantSearch = {
                 container.querySelectorAll('.search-result-item').forEach(item => {
                     item.addEventListener('click', function() {
                         overlay.classList.remove('active');
-                        QuickView.open(parseInt(this.dataset.id));
+                        QuickView.open(this.dataset.id);
                     });
                 });
             });
@@ -1821,7 +1875,8 @@ const OrderTracker = {
 // ============================================================
 const QuickView = {
     open(productId) {
-        const product = allProducts.find(p => p.id === productId);
+        const targetId = String(productId);
+        const product = allProducts.find(p => String(p.id) === targetId || String(p._id) === targetId);
         if (!product) return;
 
         let modal = document.getElementById('quickViewModal');
