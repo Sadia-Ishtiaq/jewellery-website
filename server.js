@@ -10,8 +10,8 @@ const connectDB = require('./config/db');
 // Load environment variables
 dotenv.config();
 
-// Connect to MongoDB Database
-connectDB();
+// NOTE: connectDB() is called once at the bottom, inside the startup block,
+// so the HTTP server only opens after the database connection is confirmed.
 
 const app = express();
 
@@ -24,7 +24,14 @@ app.use(
 );
 
 app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+app.use(
+  express.json({
+    limit: '10mb',
+    verify: (req, res, buf) => {
+      req.rawBody = buf;
+    }
+  })
+);
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 if (process.env.NODE_ENV !== 'production') {
@@ -88,10 +95,22 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`===================================================`);
-  console.log(`💎 SADIA'S COLLECTION E-COMMERCE SERVER RUNNING!`);
-  console.log(`📍 Port: http://localhost:${PORT}`);
-  console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`===================================================`);
-});
+// ── Startup: connect to MongoDB first, then open the HTTP port ──────────────
+// connectDB() is called exactly once here. The server will not accept any
+// requests until the database connection is confirmed (race condition fixed).
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`===================================================`);
+      console.log(`💎 SADIA'S COLLECTION E-COMMERCE SERVER RUNNING!`);
+      console.log(`📍 Port: http://localhost:${PORT}`);
+      console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`===================================================`);
+    });
+  })
+  .catch((err) => {
+    // Safe error — does not print the MONGO_URI or any credentials
+    console.error('[FATAL] MongoDB connection failed. HTTP server will not start.');
+    console.error('[FATAL] Check your MONGO_URI in .env and Atlas Network Access settings.');
+    process.exit(1);
+  });

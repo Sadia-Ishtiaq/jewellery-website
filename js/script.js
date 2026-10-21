@@ -922,6 +922,32 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // ============================================================
 // ===== REAL-TIME ORDER SYSTEM & DATABASE MANAGEMENT =====
 // ============================================================
+// Payment Method Selection & Button Label Synchronizer
+function selectPaymentMethod(methodName) {
+    const payMethodInput = document.getElementById('payMethod');
+    const optCOD = document.getElementById('payOptCOD');
+    const optCard = document.getElementById('payOptCard');
+    const btnSubmit = document.getElementById('btnSubmitOrder');
+
+    const isCard = methodName.includes('Card') || methodName.includes('Credit');
+
+    if (isCard) {
+        if (payMethodInput) payMethodInput.value = 'Credit / Debit Card — Secure Online Payment';
+        optCOD?.classList.remove('active');
+        optCard?.classList.add('active');
+        optCOD?.setAttribute('aria-checked', 'false');
+        optCard?.setAttribute('aria-checked', 'true');
+        if (btnSubmit) btnSubmit.innerHTML = `<i class="fas fa-lock"></i> Pay with Card (Safepay)`;
+    } else {
+        if (payMethodInput) payMethodInput.value = 'Cash on Delivery (COD)';
+        optCOD?.classList.add('active');
+        optCard?.classList.remove('active');
+        optCOD?.setAttribute('aria-checked', 'true');
+        optCard?.setAttribute('aria-checked', 'false');
+        if (btnSubmit) btnSubmit.innerHTML = `<i class="fas fa-check-circle"></i> Place Order (Cash on Delivery)`;
+    }
+}
+
 function setupOrderSystemDOM() {
     if (document.getElementById('checkoutModal')) return;
 
@@ -932,52 +958,125 @@ function setupOrderSystemDOM() {
     checkoutModal.innerHTML = `
         <div class="checkout-card">
             <div class="checkout-header">
-                <h3><i class="fas fa-shopping-bag" style="color:var(--gold);"></i> Place Your Order</h3>
+                <h3><i class="fas fa-gem" style="color:var(--gold);"></i> Checkout — Hayat's Collection</h3>
                 <button class="close-modal" id="closeCheckoutBtn">&times;</button>
             </div>
             <div class="checkout-body">
-                <div class="order-summary-box">
-                    <h4>Order Summary</h4>
-                    <div class="order-summary-items" id="checkoutItemsList"></div>
-                    <div class="order-summary-total">
-                        <span>Total PKR:</span>
-                        <span id="checkoutTotalPKR">PKR 0</span>
-                    </div>
-                </div>
-                <form id="orderForm">
-                    <div class="form-group">
-                        <label for="custName">Full Name *</label>
-                        <input type="text" id="custName" placeholder="e.g. Sadia Ishtiaq" required />
-                    </div>
-                    <div class="form-row">
+                <form id="orderForm" class="checkout-grid-container">
+                    <!-- Left Column: Shipping & Delivery Info -->
+                    <div class="checkout-left-col">
+                        <h4 style="font-size: 13.5px; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px;">
+                            <i class="fas fa-map-marker-alt" style="color: var(--gold); margin-right: 6px;"></i> Delivery Information
+                        </h4>
                         <div class="form-group">
-                            <label for="custPhone">Phone / WhatsApp *</label>
+                            <label for="custName">Full Name *</label>
+                            <input type="text" id="custName" placeholder="e.g. Sadia Ishtiaq" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="custEmail">Email Address *</label>
+                            <input type="email" id="custEmail" placeholder="e.g. sadia@example.com" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="custPhone">Phone / WhatsApp Number *</label>
                             <input type="tel" id="custPhone" placeholder="03001234567" required />
                         </div>
                         <div class="form-group">
                             <label for="custCity">City *</label>
                             <input type="text" id="custCity" placeholder="Islamabad / Lahore / Karachi" required />
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="custAddress">Full Delivery Address *</label>
-                        <textarea id="custAddress" rows="2" placeholder="House #, Street, Sector / Area" required></textarea>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="payMethod">Payment Method *</label>
-                            <select id="payMethod">
-                                <option value="Cash on Delivery (COD)">Cash on Delivery (COD)</option>
-                            </select>
+                        <div class="form-group" style="margin-bottom: 14px;">
+                            <label for="custAddress">Full Delivery Address *</label>
+                            <textarea id="custAddress" rows="2" placeholder="House #, Street, Sector / Area" required></textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="targetEmail">Owner Email</label>
-                            <input type="text" value="sadiaishtiaqqq@gmail.com" readonly style="background:#FAF6F0; font-weight:600;" />
+                        
+                        <!-- Selectable Payment Method Options -->
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label style="display: block; font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 8px;">
+                                Payment Method *
+                            </label>
+                            <input type="hidden" id="payMethod" value="Cash on Delivery (COD)" />
+
+                            <div class="payment-methods-grid">
+                                <!-- Option 1: Cash on Delivery (COD) -->
+                                <div class="payment-method-card active" id="payOptCOD" role="radio" aria-checked="true" tabindex="0">
+                                    <div class="payment-method-header">
+                                        <div class="payment-radio">
+                                            <span class="radio-dot"></span>
+                                        </div>
+                                        <div class="payment-method-info">
+                                            <div class="payment-method-title">
+                                                <i class="fas fa-money-bill-wave"></i>
+                                                <span>Cash on Delivery (COD)</span>
+                                            </div>
+                                            <p class="payment-method-desc">Pay in cash upon doorstep delivery across Pakistan</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Option 2: Credit / Debit Card (Safepay) -->
+                                <div class="payment-method-card" id="payOptCard" role="radio" aria-checked="false" tabindex="0">
+                                    <div class="payment-method-header">
+                                        <div class="payment-radio">
+                                            <span class="radio-dot"></span>
+                                        </div>
+                                        <div class="payment-method-info">
+                                            <div class="payment-method-title">
+                                                <i class="fas fa-credit-card"></i>
+                                                <span>Credit / Debit Card</span>
+                                            </div>
+                                            <p class="payment-method-desc">Instant &amp; secure online payment via Safepay</p>
+                                            <div class="payment-card-logos">
+                                                <span class="card-logo-pill">Visa</span>
+                                                <span class="card-logo-pill">Mastercard</span>
+                                                <span class="card-logo-pill">PayPak / UnionPay</span>
+                                                <span class="safepay-tag"><i class="fas fa-shield-alt"></i> Safepay</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn-place-order">
-                        <i class="fas fa-check-circle"></i> Confirm Order
-                    </button>
+
+                    <!-- Right Column: Order Summary & Trust Box -->
+                    <div class="checkout-right-col" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <h4 style="font-size: 13.5px; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px;">
+                                <i class="fas fa-shopping-bag" style="color: var(--gold); margin-right: 6px;"></i> Order Summary
+                            </h4>
+                            <div class="order-summary-box" style="background: var(--cream); padding: 16px; border-radius: 14px; border: 1px solid var(--light-gray); margin-bottom: 16px;">
+                                <div class="order-summary-items" id="checkoutItemsList" style="max-height: 140px; overflow-y: auto; padding-right: 4px; margin-bottom: 10px;"></div>
+                                <div style="border-top: 1px solid var(--light-gray); padding-top: 10px; font-size: 13px; display: flex; justify-content: space-between; margin-bottom: 4px; color: var(--gray);">
+                                    <span>Subtotal:</span>
+                                    <span id="checkoutSubtotalPKR" style="font-weight: 600; color: var(--dark);">PKR 0</span>
+                                </div>
+                                <div style="font-size: 13px; display: flex; justify-content: space-between; margin-bottom: 8px; color: var(--gray);">
+                                    <span>Delivery Fee:</span>
+                                    <span id="checkoutShippingPKR" style="color: #10B981; font-weight: 600;">FREE</span>
+                                </div>
+                                <div class="order-summary-total" style="border-top: 1px solid var(--light-gray); padding-top: 8px; font-size: 16.5px; font-weight: 700; color: var(--gold); display: flex; justify-content: space-between;">
+                                    <span>Estimated Total:</span>
+                                    <span id="checkoutTotalPKR">PKR 0</span>
+                                </div>
+                            </div>
+
+                            <!-- Order Security & Express Delivery Trust Box -->
+                            <div class="checkout-trust-box">
+                                <div class="trust-badge-row">
+                                    <i class="fas fa-shield-halved"></i>
+                                    <span>100% Encrypted &amp; Secure Checkout</span>
+                                </div>
+                                <div class="trust-badge-row">
+                                    <i class="fas fa-truck-fast"></i>
+                                    <span>Free Express Delivery Across Pakistan</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-place-order" id="btnSubmitOrder" style="margin-top: 0; padding: 16px; font-size: 15px; font-weight: 700; width: 100%;">
+                            <i class="fas fa-check-circle"></i> Place Order (Cash on Delivery)
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -988,7 +1087,7 @@ function setupOrderSystemDOM() {
     receiptModal.className = 'modal-overlay';
     receiptModal.id = 'receiptModal';
     receiptModal.innerHTML = `
-        <div class="checkout-card" style="text-align: center;">
+        <div class="checkout-card" style="text-align: center; max-width: 520px;">
             <div class="checkout-header">
                 <h3><i class="fas fa-receipt" style="color:var(--gold);"></i> Order Receipt</h3>
                 <button class="close-modal" id="closeReceiptBtn">&times;</button>
@@ -999,7 +1098,7 @@ function setupOrderSystemDOM() {
                 <p style="color: var(--gray); font-size: 14px; margin-top: 4px;">Thank you for your order at <strong>Hayat's Collection</strong>.</p>
                 <div class="receipt-details" id="receiptContent" style="text-align: left;"></div>
                 <p style="font-size: 12.5px; color: var(--gray); margin-bottom: 20px; line-height: 1.5;">
-                    📩 Order notification sent to <strong>sadiaishtiaqqq@gmail.com</strong>.<br/>Our team will call you on WhatsApp for dispatch confirmation!
+                    📩 Order notification dispatched.<br/>Our team will contact you on WhatsApp for delivery confirmation!
                 </p>
                 <button class="btn btn-primary" id="continueShoppingBtn" style="width:100%;">Continue Shopping</button>
             </div>
@@ -1014,6 +1113,23 @@ function setupOrderSystemDOM() {
     document.getElementById('closeReceiptBtn').addEventListener('click', closeReceiptModal);
     document.getElementById('continueShoppingBtn').addEventListener('click', closeReceiptModal);
 
+    // Payment Method Selection Click Listeners
+    const optCOD = document.getElementById('payOptCOD');
+    const optCard = document.getElementById('payOptCard');
+
+    optCOD?.addEventListener('click', () => selectPaymentMethod('Cash on Delivery (COD)'));
+    optCard?.addEventListener('click', () => selectPaymentMethod('Credit / Debit Card — Secure Online Payment'));
+
+    // Keyboard accessibility (Enter / Space)
+    [optCOD, optCard].forEach(opt => {
+        opt?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                opt.click();
+            }
+        });
+    });
+
     // Form Submission
     document.getElementById('orderForm').addEventListener('submit', handleOrderSubmission);
 }
@@ -1021,20 +1137,44 @@ function setupOrderSystemDOM() {
 function openCheckoutModal() {
     setupOrderSystemDOM();
 
+    // Auto-fill logged-in customer session details
+    const sessionUser = typeof AuthSystem !== 'undefined' && AuthSystem.getUserSession ? AuthSystem.getUserSession() : null;
+    if (sessionUser) {
+        const nameInput = document.getElementById('custName');
+        const emailInput = document.getElementById('custEmail');
+        const phoneInput = document.getElementById('custPhone');
+        if (nameInput && !nameInput.value && sessionUser.name) nameInput.value = sessionUser.name;
+        if (emailInput && !emailInput.value && sessionUser.email) emailInput.value = sessionUser.email;
+        if (phoneInput && !phoneInput.value && sessionUser.phone) phoneInput.value = sessionUser.phone;
+    }
+
     const itemsList = document.getElementById('checkoutItemsList');
+    const subtotalEl = document.getElementById('checkoutSubtotalPKR');
+    const shippingEl = document.getElementById('checkoutShippingPKR');
     const totalPKR = document.getElementById('checkoutTotalPKR');
     if (!itemsList || !totalPKR) return;
 
-    const totalPrice = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+    const subtotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+    const shippingFee = subtotal > 3000 ? 0 : 250;
+    const total = subtotal + shippingFee;
 
     itemsList.innerHTML = cart.map(item => `
-        <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <span>${item.name} × ${item.quantity}</span>
-            <strong>PKR ${(item.price * item.quantity).toLocaleString()}</strong>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; font-size:13px;">
+            <span><strong>${item.name}</strong> × ${item.quantity}</span>
+            <strong style="color:var(--dark);">PKR ${(item.price * item.quantity).toLocaleString()}</strong>
         </div>
     `).join('');
 
-    totalPKR.textContent = `PKR ${totalPrice.toLocaleString()}`;
+    if (subtotalEl) subtotalEl.textContent = `PKR ${subtotal.toLocaleString()}`;
+    if (shippingEl) {
+        shippingEl.textContent = shippingFee === 0 ? 'FREE' : `PKR ${shippingFee.toLocaleString()}`;
+        shippingEl.style.color = shippingFee === 0 ? '#10B981' : 'var(--dark)';
+    }
+    totalPKR.textContent = `PKR ${total.toLocaleString()}`;
+
+    // Ensure payment method selection and button label are cleanly synced on open
+    const currentPayMethod = document.getElementById('payMethod')?.value || 'Cash on Delivery (COD)';
+    selectPaymentMethod(currentPayMethod);
 
     document.getElementById('checkoutModal')?.classList.add('active');
 }
@@ -1047,14 +1187,31 @@ function closeReceiptModal() {
     document.getElementById('receiptModal')?.classList.remove('active');
 }
 
+// Safepay Web SDK Dynamic Loader
+function loadSafepaySDK() {
+    return new Promise((resolve) => {
+        if (window.safepay || window.Safepay) {
+            return resolve(window.safepay || window.Safepay);
+        }
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/@sfpy/checkout-components@0.1.1/dist/sfpy-checkout.js';
+        script.onload = () => resolve(window.safepay || window.Safepay);
+        script.onerror = () => resolve(null);
+        document.head.appendChild(script);
+    });
+}
+
 async function handleOrderSubmission(e) {
     e.preventDefault();
 
     const name = document.getElementById('custName').value.trim();
+    const email = document.getElementById('custEmail')?.value.trim() || 'customer@sadiascollection.com';
     const phone = document.getElementById('custPhone').value.trim();
     const city = document.getElementById('custCity').value.trim();
     const address = document.getElementById('custAddress').value.trim();
     const payment = document.getElementById('payMethod').value;
+
+    const isCard = payment.includes('Card') || payment.includes('Credit');
 
     const totalPrice = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
     const orderItems = cart.map(item => ({
@@ -1062,70 +1219,161 @@ async function handleOrderSubmission(e) {
         name: item.name,
         quantity: item.quantity,
         price: item.price,
-        image: item.image
+        image: item.image || item.img || ''
     }));
 
     let createdOrder = null;
     let orderId = 'SC-' + Math.floor(10000 + Math.random() * 90000);
+    let checkoutUrl = '';
+    let trackerToken = '';
 
     try {
         if (window.API) {
             const apiRes = await window.API.createOrder({
-                customerDetails: { name, phone, city, address, email: 'customer@sadiascollection.com' },
+                customerDetails: { name, email, phone, city, address },
                 orderItems,
-                paymentMethod: 'COD'
+                paymentMethod: isCard ? 'Credit / Debit Card — Secure Online Payment' : 'Cash on Delivery (COD)'
             });
 
-            if (apiRes.success && apiRes.order) {
+            if (apiRes && apiRes.success && apiRes.order) {
                 createdOrder = apiRes.order;
                 orderId = createdOrder._id ? createdOrder._id.substring(createdOrder._id.length - 6).toUpperCase() : orderId;
-                showToast(`✨ Order #${orderId} placed successfully!`);
+                checkoutUrl = apiRes.checkoutUrl || '';
+                trackerToken = apiRes.trackerToken || '';
+            } else {
+                showToast('⚠️ Could not create order: ' + (apiRes ? apiRes.message : 'Server error'));
+                return;
             }
         }
     } catch (apiErr) {
-        console.warn('[Order API Note] Saved locally & sending notification:', apiErr.message);
+        console.error('[Order API Error]', apiErr);
+        showToast('⚠️ ' + (apiErr.message || 'Could not connect to server'));
+        return;
     }
 
-    const orderRecord = {
-        orderId,
-        date: new Date().toLocaleString(),
-        customer: { name, phone, city, address, payment },
-        items: cart,
-        totalPKR: totalPrice,
-        status: 'Pending Dispatch'
-    };
+    closeCheckoutModal();
 
-    // 1. Local Backup
-    const existingOrders = JSON.parse(localStorage.getItem('hayat_orders_db') || '[]');
-    existingOrders.unshift(orderRecord);
-    localStorage.setItem('hayat_orders_db', JSON.stringify(existingOrders));
+    // -------------------------------------------------------------
+    // FLOW 1: CREDIT / DEBIT CARD (SAFEPAY HOSTED CHECKOUT)
+    // -------------------------------------------------------------
+    if (isCard) {
+        if (!checkoutUrl) {
+            showToast('⚠️ Payment portal unavailable. Please choose Cash on Delivery.');
+            return;
+        }
 
-    // 2. Direct Notification Email
-    const orderData = new FormData();
-    orderData.append('_subject', `NEW COD ORDER #${orderId} from ${name} (PKR ${totalPrice.toLocaleString()})`);
-    orderData.append('_template', 'table');
-    orderData.append('Order ID', '#' + orderId);
-    orderData.append('Customer Name', name);
-    orderData.append('Phone Number', phone);
-    orderData.append('City', city);
-    orderData.append('Delivery Address', address);
-    orderData.append('Payment Method', payment);
-    orderData.append('Ordered Items', cart.map(i => `${i.name} (Qty: ${i.quantity}) = PKR ${(i.price * i.quantity).toLocaleString()}`).join(', '));
-    orderData.append('Total Amount', `PKR ${totalPrice.toLocaleString()}`);
+        showToast('🔒 Opening secure card payment portal...');
+        setTimeout(() => {
+            window.location.href = checkoutUrl;
+        }, 500);
+        return;
+    }
 
-    fetch("https://formsubmit.co/ajax/sadiaishtiaqqq@gmail.com", {
-        method: "POST",
-        body: orderData
-    }).catch(err => console.log("Order stored in database."));
+    // -------------------------------------------------------------
+    // FLOW 2: CASH ON DELIVERY (COD)
+    // -------------------------------------------------------------
+    showToast(`✨ Order #${orderId} placed successfully!`);
+    displayReceiptModal(orderId, name, phone, address, city, 'Cash on Delivery (COD)', totalPrice, false);
+    cart = [];
+    updateCartUI();
+}
 
-    // Display Receipt
+// -------------------------------------------------------------
+// AUTOMATIC RETURN & SERVER-SIDE PAYMENT VERIFICATION
+// -------------------------------------------------------------
+async function checkPaymentReturnVerification() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const paymentType = urlParams.get('payment');
+    const status = urlParams.get('status');
+    const orderId = urlParams.get('orderId');
+    const tracker = urlParams.get('tracker') || urlParams.get('beacon');
+
+    if (paymentType === 'safepay' || tracker || (orderId && status)) {
+        // Clean URL query parameters gracefully
+        window.history.replaceState({}, document.title, window.location.pathname);
+
+        if (status === 'cancel' || status === 'failed') {
+            showToast('⚠️ Payment could not be completed. Please try again or choose another payment method.');
+            return;
+        }
+
+        if (orderId) {
+            // Display Luxury Verifying Overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay active';
+            overlay.id = 'paymentVerifyingOverlay';
+            overlay.innerHTML = `
+                <div class="checkout-card" style="text-align: center; max-width: 440px; padding: 32px;">
+                    <div style="font-size: 42px; color: var(--gold); margin-bottom: 16px;"><i class="fas fa-spinner fa-spin"></i></div>
+                    <h3 style="font-family: var(--font-primary); font-size: 22px; color: var(--dark); margin-bottom: 8px;">Verifying Payment</h3>
+                    <p style="font-size: 13.5px; color: var(--gray); line-height: 1.5; margin: 0;">Please wait while we confirm your payment securely with your bank...</p>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+
+            try {
+                // Direct Server-to-Server Verification Call
+                const verifyRes = await window.API.verifySafepayPayment(orderId, tracker || '');
+                overlay.remove();
+
+                if (verifyRes.success && verifyRes.order) {
+                    const ord = verifyRes.order;
+                    const cust = ord.customerDetails || {};
+                    const shortId = ord._id ? ord._id.substring(ord._id.length - 6).toUpperCase() : 'BE4AAB';
+
+                    // Reset shopping bag
+                    cart = [];
+                    updateCartUI();
+
+                    // Display Professional Success Screen
+                    displaySuccessPaymentModal(shortId, cust.name || 'Valued Customer', ord.totalAmount || 0);
+                } else {
+                    showToast('⚠️ Payment could not be completed. Please try again or choose another payment method.');
+                }
+            } catch (err) {
+                overlay.remove();
+                showToast('⚠️ Payment could not be completed. Please try again or choose another payment method.');
+            }
+        }
+    }
+}
+
+// Professional Luxury Success Screen
+function displaySuccessPaymentModal(shortId, customerName, totalAmount) {
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay active';
+    modal.innerHTML = `
+        <div class="checkout-card" style="text-align: center; max-width: 480px; padding: 36px 28px;">
+            <div class="receipt-icon" style="font-size: 58px; color: #10B981; margin-bottom: 16px;"><i class="fas fa-check-circle"></i></div>
+            <h2 style="font-family: var(--font-primary); font-size: 28px; color: var(--dark); margin-bottom: 6px;">Payment Successful</h2>
+            <p style="font-size: 15px; color: var(--gold); font-weight: 600; margin-bottom: 20px;">Thank you for your order, ${customerName}!</p>
+            
+            <div style="background: var(--cream); padding: 20px; border-radius: 16px; margin-bottom: 24px; text-align: left; line-height: 1.9; font-size: 14px; border: 1px solid var(--light-gray);">
+                <p style="margin:0;"><strong>Order ID:</strong> #${shortId}</p>
+                <p style="margin:0;"><strong>Status:</strong> <span style="color:#10B981; font-weight:700;">Paid &amp; Confirmed</span></p>
+                <p style="margin:0;"><strong>Amount Received:</strong> <span style="color:var(--gold); font-weight:700;">PKR ${totalAmount.toLocaleString()}</span></p>
+                <p style="margin:0; font-size:12.5px; color:var(--gray); margin-top:8px;">Your payment has been received and your order is now being prepared for dispatch.</p>
+            </div>
+
+            <button onclick="this.closest('.modal-overlay').remove();" class="btn btn-primary" style="width:100%; padding:14px; font-weight:600;">
+                Continue Shopping
+            </button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+// Run Return Payment Verification Check on Load
+document.addEventListener('DOMContentLoaded', checkPaymentReturnVerification);
+
+function displayReceiptModal(orderId, name, phone, address, city, paymentLabel, totalPrice, isPaid) {
     const receiptContent = document.getElementById('receiptContent');
     if (receiptContent) {
         receiptContent.innerHTML = `
             <p><strong>Order ID:</strong> #${orderId}</p>
             <p><strong>Customer:</strong> ${name} (${phone})</p>
             <p><strong>Address:</strong> ${address}, ${city}</p>
-            <p><strong>Payment:</strong> Cash on Delivery (COD)</p>
+            <p><strong>Payment Method:</strong> ${isPaid ? `<span style="color:#2563EB; font-weight:700;"><i class="fas fa-credit-card"></i> ${paymentLabel}</span>` : `<span style="color:#10B981; font-weight:600;"><i class="fas fa-money-bill-wave"></i> ${paymentLabel}</span>`}</p>
             <p><strong>Total Amount:</strong> <span style="color:var(--gold); font-weight:700;">PKR ${totalPrice.toLocaleString()}</span></p>
             <hr style="margin:10px 0; border:0; border-top:1px dashed var(--gray);"/>
             <p><strong>Items Ordered:</strong></p>
@@ -1134,13 +1382,7 @@ async function handleOrderSubmission(e) {
             </ul>
         `;
     }
-
-    closeCheckoutModal();
     document.getElementById('receiptModal')?.classList.add('active');
-
-    // Reset Cart
-    cart = [];
-    updateCartUI();
 }
 
 // Global Database Helper function for Sadia Hayat to view all placed orders in browser console

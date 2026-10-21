@@ -9,7 +9,7 @@ const orderItemSchema = new mongoose.Schema({
   name: { type: String, required: true },
   quantity: { type: Number, required: true, min: 1 },
   price: { type: Number, required: true },
-  image: { type: String, required: true }
+  image: { type: String, required: false, default: '' }
 });
 
 const orderSchema = new mongoose.Schema(
@@ -30,7 +30,20 @@ const orderSchema = new mongoose.Schema(
     paymentMethod: {
       type: String,
       default: 'COD',
-      enum: ['COD']
+      enum: ['COD', 'Safepay Card', 'Credit / Debit Card', 'CARD', 'Online Card Payment', 'Bank Transfer', 'Credit / Debit Card — Secure Online Payment', 'Cash on Delivery (COD)']
+    },
+    safepayTracker: {
+      type: String,
+      default: ''
+    },
+    safepayReference: {
+      type: String,
+      default: ''
+    },
+    cardDetails: {
+      cardHolder: { type: String, default: '' },
+      cardNumberMasked: { type: String, default: '' },
+      expDate: { type: String, default: '' }
     },
     subtotal: {
       type: Number,

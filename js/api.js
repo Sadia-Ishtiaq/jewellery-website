@@ -123,6 +123,13 @@ const API = {
     });
   },
 
+  async verifySafepayPayment(orderId, trackerToken) {
+    return await this.request('/orders/safepay/verify', {
+      method: 'POST',
+      body: JSON.stringify({ orderId, trackerToken })
+    });
+  },
+
   async getMyOrders() {
     return await this.request('/orders/myorders');
   },

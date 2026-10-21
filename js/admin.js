@@ -261,11 +261,15 @@ function renderAdminOrdersTable(orders) {
     tbody.innerHTML = orders.map(o => {
         const dateStr = new Date(o.createdAt).toLocaleString('en-PK', { dateStyle: 'medium', timeStyle: 'short' });
         const itemsSummary = o.orderItems.map(i => `${i.name} (x${i.quantity})`).join(', ');
+        const isCardPay = o.paymentMethod && (o.paymentMethod.includes('Card') || o.paymentMethod.includes('CARD') || o.paymentMethod.includes('Online'));
+        const payBadge = isCardPay
+            ? `<small style="color:#2563EB; font-weight:700;"><i class="fas fa-credit-card"></i> Card (Online Paid)</small>${o.cardDetails && o.cardDetails.cardNumberMasked ? `<br/><small style="color:var(--gray); font-size:11px;">${o.cardDetails.cardNumberMasked}</small>` : ''}`
+            : `<small style="color:#10B981; font-weight:600;"><i class="fas fa-money-bill-wave"></i> Cash on Delivery</small>`;
         const cust = o.customerDetails || {};
 
         return `
             <tr>
-                <td><code style="background:#eee; padding:3px 6px; border-radius:6px; font-weight:700; font-size:12px;">#${o._id.substring(o._id.length - 6).toUpperCase()}</code></td>
+                <td><code style="background:#eee; padding:3px 6px; border-radius:6px; font-weight:700; font-size:12px;">#${o._id ? o._id.substring(o._id.length - 6).toUpperCase() : 'ORDER'}</code></td>
                 <td>
                     <strong>${cust.name || 'Guest'}</strong><br />
                     <span style="font-size:12.5px; color:var(--gray);"><i class="fas fa-phone"></i> ${cust.phone || 'N/A'}</span><br />
@@ -276,7 +280,7 @@ function renderAdminOrdersTable(orders) {
                     <strong style="font-size:12.5px; color:var(--gold);">${cust.city || ''}</strong>
                 </td>
                 <td><span style="font-size:12.5px; max-width:200px; display:block; line-height:1.4;">${itemsSummary}</span></td>
-                <td><strong style="color:var(--dark); font-size:15px;">PKR ${o.totalAmount.toLocaleString()}</strong><br /><small style="color:#10B981; font-weight:600;">Cash on Delivery</small></td>
+                <td><strong style="color:var(--dark); font-size:15px;">PKR ${(o.totalAmount || 0).toLocaleString()}</strong><br />${payBadge}</td>
                 <td>
                     <select class="status-select status-${o.status}" onchange="changeOrderStatus('${o._id}', this.value)">
                         <option value="Pending" ${o.status === 'Pending' ? 'selected' : ''}>Pending</option>

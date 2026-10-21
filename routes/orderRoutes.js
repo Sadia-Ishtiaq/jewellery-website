@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const {
   createOrder,
+  handleSafepayRedirect,
+  verifySafepayPayment,
+  handleSafepayWebhook,
   getMyOrders,
   getOrderById,
   getOrders,
@@ -22,9 +25,15 @@ router
   .post(optionalProtect, createOrder)
   .get(protect, admin, getOrders);
 
+// Safepay Payment Routes
+router.get('/safepay/redirect', handleSafepayRedirect);
+router.post('/safepay/verify', verifySafepayPayment);
+router.post('/safepay/webhook', handleSafepayWebhook);
+
 router.get('/myorders', protect, getMyOrders);
 
 router.get('/:id', getOrderById);
 router.put('/:id/status', protect, admin, updateOrderStatus);
 
 module.exports = router;
+
